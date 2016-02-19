@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="UserSetting" >
+  <resultMap id="BaseResultMap" type="com.footmark.core.entity.UserSetting" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="domain" property="domain" jdbcType="VARCHAR" />
+    <result column="key_config" property="key" jdbcType="TINYINT" />
+    <result column="value" property="value" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, domain, key_config, value, create_time, status
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_setting
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insert" parameterType="com.footmark.core.entity.UserSetting"  useGeneratedKeys="true" keyProperty="id">
+    insert into user_setting
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="domain != null" >
+        domain,
+      </if>
+      <if test="key != null" >
+        key_config,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="domain != null" >
+        #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null" >
+        #{key,jdbcType=TINYINT},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.footmark.core.entity.UserSetting" >
+    update user_setting
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="domain != null" >
+        domain = #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null" >
+        key_config = #{key,jdbcType=TINYINT},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- params: userId -->
+  <select id="queryByUid" resultMap="BaseResultMap" parameterType="map">
+  	SELECT
+  	<include refid="Base_Column_List"/>
+  	FROM user_setting
+  	WHERE user_id = #{userId}
+  </select>
+  <!-- params: userId, key -->
+  <select id="queryByUidAndKey" resultMap="BaseResultMap" parameterType="map">
+  	SELECT
+  	<include refid="Base_Column_List"/>
+  	FROM user_setting
+  	WHERE user_id = #{userId}
+  	AND key_config = #{key}
+  </select>
+  <!-- update params: id, userId, key -->
+  <select id="updateById" resultMap="BaseResultMap" parameterType="map">
+  	Update user_setting
+  	SET user_id = #{userId},
+  	SET key_config = #{key}
+  	WHERE id = #{id}
+  </select>
+  <!-- params: userId, domain -->
+  <select id="queryByUidAndDomain" resultMap="BaseResultMap" parameterType="map">
+  	SELECT
+  	<include refid="Base_Column_List"/>
+  	FROM user_setting
+  	WHERE user_id = #{userId}
+  	AND domain = #{domain}
+  </select>
+</mapper>

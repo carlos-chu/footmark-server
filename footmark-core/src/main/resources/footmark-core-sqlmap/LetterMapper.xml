@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Letter">
+	<resultMap id="BaseResultMap" type="com.footmark.core.entity.Letter">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+		<result column="from_uid" property="fromUid" jdbcType="BIGINT" />
+		<result column="to_uid" property="toUid" jdbcType="BIGINT" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="read_status" property="readStatus" jdbcType="TINYINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, parent_id, from_uid, to_uid, content, read_status, create_time,
+		status
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from letter
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from letter
+		where id =
+		#{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.footmark.core.entity.Letter"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into letter
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="fromUid != null">
+				from_uid,
+			</if>
+			<if test="toUid != null">
+				to_uid,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="readStatus != null">
+				read_status,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="fromUid != null">
+				#{fromUid,jdbcType=BIGINT},
+			</if>
+			<if test="toUid != null">
+				#{toUid,jdbcType=BIGINT},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="readStatus != null">
+				#{readStatus,jdbcType=TINYINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.footmark.core.entity.Letter">
+		update letter
+		<set>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="fromUid != null">
+				from_uid = #{fromUid,jdbcType=BIGINT},
+			</if>
+			<if test="toUid != null">
+				to_uid = #{toUid,jdbcType=BIGINT},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="readStatus != null">
+				read_status = #{readStatus,jdbcType=TINYINT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<!-- 查询用户的私信，包含发送方的信息 -->
+	<select id="queryByUid" resultType="com.footmark.core.vo.LetterVo" parameterType="map">
+		SELECT
+		l.id AS id, l.from_uid AS fromUid, u.name AS fromName, u.avatar AS fromAvatar,
+		l.content AS content, l.read_status AS readStatus, l.create_time AS createTime,
+		l.parent_id AS parentId
+		FROM letter l 
+		LEFT JOIN user_info u ON l.from_uid = u.id
+		WHERE to_uid = #{uid}
+		<if test="readStatus != null">
+			AND read_status = #{readStatus}
+		</if>
+		AND parent_id IS NULL AND l.status != 1
+		ORDER BY l.id DESC
+	</select>
+	<!-- 查询某已私信的详情，包括回复详情-->
+	<select id="queryDetail" resultType="com.footmark.core.vo.LetterVo" parameterType="map">
+		SELECT
+		l.id AS id, l.from_uid AS fromUid, u.name AS fromName, u.avatar AS fromAvatar,
+		l.content AS content, l.read_status AS readStatus, l.create_time AS createTime,
+		l.parent_id AS parentId
+		FROM letter l 
+		LEFT JOIN user_info u ON l.from_uid = u.id
+		WHERE l.id = #{letterId} OR l.parent_id = #{letterId} AND l.status != 1
+		ORDER BY l.id
+	</select>
+	<update id="deleteFromParent" parameterType="map">
+		UPDATE letter
+		SET status = 1
+		WHERE id = #{id} OR parent_id = #{id}
+	</update>
+</mapper>

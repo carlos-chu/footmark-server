@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.footmark</groupId>
+		<artifactId>FOORMARK-MASTER</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>footmark-gateway</artifactId>
+	<packaging>jar</packaging>
+
+	<name>footmark-gateway</name>
+	<description>The exposed footmark gateway</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.footmark</groupId>
+			<artifactId>footmark-framework</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- 百度推送sdk -->
+		<dependency>
+			<groupId>baidu</groupId>
+			<artifactId>bccs-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>baidu</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>baidu</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>baidu</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>baidu</groupId>
+			<artifactId>ezmorph</artifactId>
+			<version>1.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>baidu</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<!-- 阿里云 -->
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-sts</artifactId>
+			<version>2.1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-core</artifactId>
+			<version>2.1.7</version>
+		</dependency>
+	</dependencies>
+</project>

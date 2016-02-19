@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.footmark</groupId>
+		<artifactId>FOORMARK-MASTER</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>footmark-api</artifactId>
+	<packaging>jar</packaging>
+
+	<name>footmark-api</name>
+	<description>The exposed footmark api</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<!-- Internal compoenents dependencies -->
+		<dependency>
+			<groupId>com.footmark</groupId>
+			<artifactId>footmark-framework</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.footmark</groupId>
+			<artifactId>footmark-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

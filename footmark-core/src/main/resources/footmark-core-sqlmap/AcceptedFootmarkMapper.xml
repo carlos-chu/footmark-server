@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="AcceptedFootmark" >
+  <resultMap id="BaseResultMap" type="com.footmark.core.entity.AcceptedFootmark" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="footmark_id" property="footmarkId" jdbcType="BIGINT" />
+    <result column="accept_type" property="acceptType" jdbcType="TINYINT" />
+    <result column="read_status" property="readStatus" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, footmark_id, accept_type, read_status, create_time, update_time, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from accepted_footmark
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from accepted_footmark
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.footmark.core.entity.AcceptedFootmark" useGeneratedKeys="true" keyProperty="id">
+    insert into accepted_footmark (id, user_id, footmark_id, 
+      accept_type, read_status, create_time, update_time, status)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{footmarkId,jdbcType=BIGINT}, 
+      #{acceptType,jdbcType=TINYINT}, #{readStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.footmark.core.entity.AcceptedFootmark" >
+    insert into accepted_footmark
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="footmarkId != null" >
+        footmark_id,
+      </if>
+      <if test="acceptType != null" >
+        accept_type,
+      </if>
+      <if test="readStatus != null" >
+        read_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="footmarkId != null" >
+        #{footmarkId,jdbcType=BIGINT},
+      </if>
+      <if test="acceptType != null" >
+        #{acceptType,jdbcType=TINYINT},
+      </if>
+      <if test="readStatus != null" >
+        #{readStatus,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.footmark.core.entity.AcceptedFootmark" >
+    update accepted_footmark
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="footmarkId != null" >
+        footmark_id = #{footmarkId,jdbcType=BIGINT},
+      </if>
+      <if test="acceptType != null" >
+        accept_type = #{acceptType,jdbcType=TINYINT},
+      </if>
+      <if test="readStatus != null" >
+        read_status = #{readStatus,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.footmark.core.entity.AcceptedFootmark" >
+    update accepted_footmark
+    set user_id = #{userId,jdbcType=BIGINT},
+      footmark_id = #{footmarkId,jdbcType=BIGINT},
+      accept_type = #{acceptType,jdbcType=TINYINT},
+      read_status = #{readStatus,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

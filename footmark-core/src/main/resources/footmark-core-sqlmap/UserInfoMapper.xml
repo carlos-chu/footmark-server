@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="UserInfo">
+	<resultMap id="BaseResultMap" type="com.footmark.core.entity.UserInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="account_no" property="accountNo" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="BIT" />
+		<result column="tel_num" property="telNum" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="avatar" property="avatar" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="TINYINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, account_no, name, gender, tel_num, email, password, avatar, level, create_time,
+		update_time, status
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from user_info
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<insert id="insert" parameterType="com.footmark.core.entity.UserInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into user_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="accountNo != null">
+				account_no,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="gender != null">
+				gender,
+			</if>
+			<if test="telNum != null">
+				tel_num,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="avatar != null">
+				avatar,
+			</if>
+			<if test="level != null">
+				level,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="accountNo != null">
+				#{accountNo,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				#{gender,jdbcType=BIT},
+			</if>
+			<if test="telNum != null">
+				#{telNum,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="avatar != null">
+				#{avatar,jdbcType=VARCHAR},
+			</if>
+			<if test="level != null">
+				#{level,jdbcType=TINYINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.footmark.core.entity.UserInfo">
+		update user_info
+		<set>
+			<if test="accountNo != null">
+				account_no = #{accountNo,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				gender = #{gender,jdbcType=BIT},
+			</if>
+			<if test="telNum != null">
+				tel_num = #{telNum,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="avatar != null">
+				avatar = #{avatar,jdbcType=VARCHAR},
+			</if>
+			<if test="level != null">
+				level = #{level,jdbcType=TINYINT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<!-- 根据用户的手机号查询用户 -->
+	<select id="queryByMobileNo" resultMap="BaseResultMap" parameterType="map">
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM user_info
+		WHERE tel_num = #{telNum}
+	</select>
+	<!-- 根据用户IDs查询出多个用户 -->
+	<select id="queryByIds" resultMap="BaseResultMap" parameterType="map">
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM user_info
+		WHERE id IN 
+		<foreach item="item" collection="ids" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- 根据用户的手机号和密码查询用户 -->
+	<select id="queryByMobileNoAndPsw" resultMap="BaseResultMap" parameterType="map">
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM user_info
+		WHERE tel_num = #{telNum} AND password = #{password}
+	</select>
+</mapper>

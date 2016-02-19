@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+    PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="aggressiveLazyLoading" value="false" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25000" />
+	</settings>
+
+	<typeHandlers>
+		<typeHandler
+			handler="com.footmark.core.handler.AcceptedFootmarkStatusEnumHandler"
+			javaType="com.footmark.core.enums.AcceptedFootmarkStatusEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.AccepterCategoryEnumHandler"
+			javaType="com.footmark.core.enums.AccepterCategoryEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.AcceptTypeEnumHandler"
+			javaType="com.footmark.core.enums.AcceptTypeEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.FootmarkStatusEnumHandler"
+			javaType="com.footmark.core.enums.FootmarkStatusEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.GenderEnumHandler"
+			javaType="com.footmark.core.enums.GenderEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.MultiMediaTypeEnumHandler"
+			javaType="com.footmark.core.enums.MultiMediaTypeEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.ReadStatusEnumHandler"
+			javaType="com.footmark.core.enums.ReadStatusEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.RelationTypeEnumHandler"
+			javaType="com.footmark.core.enums.RelationTypeEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.SourceMultiTypeEnumHandler"
+			javaType="com.footmark.core.enums.SourceMultiTypeEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.StatusEnumHandler"
+			javaType="com.footmark.common.enums.StatusEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.UserStatusEnumHandler"
+			javaType="com.footmark.core.enums.UserStatusEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.UserLevelEnumHandler"
+			javaType="com.footmark.core.enums.UserLevelEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.CounterTypeEnumHandler"
+			javaType="com.footmark.core.enums.CounterTypeEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.CounterSourceTypeEnumHandler"
+			javaType="com.footmark.core.enums.CounterSourceTypeEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.CommentSourceTypeEnumHandler"
+			javaType="com.footmark.core.enums.CommentSourceTypeEnum" />
+
+		<typeHandler handler="com.footmark.core.handler.UserSettingEnumHandler"
+			javaType="com.footmark.core.enums.UserSettingEnum" />
+
+		<typeHandler
+			handler="com.footmark.core.handler.RelationAcceptStatusEnumHandler"
+			javaType="com.footmark.core.enums.RelationAcceptStatusEnum" />
+
+		<typeHandler
+			handler="com.footmark.core.handler.FootmarkTypeEnumHandler"
+			javaType="com.footmark.core.enums.FootmarkTypeEnum" />
+
+	</typeHandlers>
+
+	<mappers>
+		<mapper resource="footmark-core-sqlmap/AcceptedFootmarkMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/CommentMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/CoordinateMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/MultiMediaMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/SourceMultiMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/FootmarkMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/UserFriendMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/UserInfoMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/UserSettingMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/CounterMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/PushInfoMapper.xml" />
+		<mapper resource="footmark-core-sqlmap/LetterMapper.xml" />
+	</mappers>
+
+</configuration>

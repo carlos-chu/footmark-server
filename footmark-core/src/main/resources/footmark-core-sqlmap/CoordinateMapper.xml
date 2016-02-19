@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Coordinate" >
+  <resultMap id="BaseResultMap" type="com.footmark.core.entity.Coordinate" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="DOUBLE" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, longitude, latitude, height, location, create_time, update_time, status
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from coordinate
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insert" parameterType="com.footmark.core.entity.Coordinate" useGeneratedKeys="true" keyProperty="id">
+    insert into coordinate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=DOUBLE},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.footmark.core.entity.Coordinate" >
+    update coordinate
+    <set >
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=DOUBLE},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 根据大致范围由远及近查询出所有的坐标 -->
+  <select id="queryByScope" resultMap="BaseResultMap" parameterType="map">
+  	SELECT 
+  	<include refid="Base_Column_List" />
+	<!-- ,(ACOS(SIN((#{latitude} * 3.1415) / 180 ) * SIN((latitude * 3.1415) / 180 ) 
+	+ COS((#{latitude} * 3.1415) / 180 ) * COS((latitude * 3.1415) / 180 ) 
+	* COS((#{longitude} * 3.1415) / 180 - (longitude * 3.1415) / 180 ) ) * 6371)
+	AS distance -->
+  	FROM coordinate
+  	WHERE longitude &lt; #{maxLon} AND longitude &gt; #{minLon}
+  	AND latitude &lt; #{maxLat} AND latitude &gt; #{minLat}
+	<!-- ORDER BY distance -->
+  </select>
+</mapper>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Comment" >
+  <resultMap id="BaseResultMap" type="com.footmark.core.entity.Comment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="source_id" property="sourceId" jdbcType="BIGINT" />
+    <result column="source_type" property="sourceType" jdbcType="TINYINT" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="target_user_id" property="targetUserId" jdbcType="BIGINT" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, source_id, source_type, parent_id, target_user_id, content, create_time, update_time, status
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insert_" parameterType="com.footmark.core.entity.Comment" useGeneratedKeys="true" keyProperty="id">
+    insert into comment (id, user_id, source_id, source_type, parent_id, target_user_id,
+      content, create_time, update_time, status)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{sourceId,jdbcType=BIGINT}, 
+      #{sourceType,jdbcType=TINYINT}, #{parentId,jdbcType=BIGINT}, #{targetUserId,jdbcType=BIGINT},
+      #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insert" parameterType="com.footmark.core.entity.Comment" useGeneratedKeys="true" keyProperty="id">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="sourceId != null" >
+        source_id,
+      </if>
+      <if test="sourceType != null" >
+        source_type,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="targetUserId != null" >
+        target_user_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="sourceId != null" >
+        #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="sourceType != null" >
+        #{sourceType,jdbcType=TINYINT},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="targetUserId != null" >
+        #{targetUserId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.footmark.core.entity.Comment" >
+    update comment
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="sourceId != null" >
+        source_id = #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="sourceType != null" >
+        source_type = #{sourceType,jdbcType=TINYINT},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="targetUserId != null" >
+        target_user_id = #{targetUserId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 查找某一主题下的评论和回复详情 -->
+  <select id="queryDetail" resultType="com.footmark.core.vo.CommentVo" parameterType="map">
+	SELECT c.id AS id, c.content AS content, c.create_time AS createTime,
+	c.user_id AS userId, CONCAT(c.source_id,c.source_type) AS source,
+	u.name AS userName, u.avatar AS userAvatar,
+	ru.id as replyUserId, ru.name AS replyUserName
+	FROM comment c LEFT JOIN user_info u ON c.user_id = u.id
+	LEFT JOIN user_info ru ON ru.id = c.target_user_id
+	WHERE c.source_id = #{sourceId} AND c.source_type = #{sourceType}
+	AND c.status = 0
+  </select>
+</mapper>

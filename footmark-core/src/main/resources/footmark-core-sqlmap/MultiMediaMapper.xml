@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MultiMedia" >
+  <resultMap id="BaseResultMap" type="com.footmark.core.entity.MultiMedia" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="outside_url" property="outsideUrl" jdbcType="VARCHAR" />
+    <result column="ext_name" property="extName" jdbcType="VARCHAR" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="bucket" property="bucket" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, url, outside_url, ext_name, file_name, bucket, create_time, update_time, status
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from multi_media
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from multi_media
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.footmark.core.entity.MultiMedia" useGeneratedKeys="true" keyProperty="id">
+    insert into multi_media
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="outsideUrl != null" >
+        outside_url,
+      </if>
+      <if test="extName != null" >
+        ext_name,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+      <if test="bucket != null" >
+        bucket,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="outsideUrl != null" >
+        #{outsideUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="extName != null" >
+        #{extName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="bucket != null" >
+        #{bucket,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.footmark.core.entity.MultiMedia" >
+    update multi_media
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="outsideUrl != null" >
+        outside_url = #{outsideUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="ext_name != null" >
+        extName = #{extName,jdbcType=VARCHAR},
+      </if>
+      <if test="file_name != null" >
+        fileName = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="bucket != null" >
+        bucket = #{bucket,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 根据ids查询出来多媒体 -->
+  <select id="queryByIds" resultType="com.footmark.core.vo.MultiMediaVo" parameterType="map">
+  	SELECT id, type, file_name AS fileName
+	FROM multi_media
+	WHERE id IN 
+  		<foreach item="item" collection="ids" open="("	separator="," close=")">
+				#{item}
+		</foreach>
+	AND status = 0
+  </select>
+</mapper>

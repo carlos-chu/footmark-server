@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Counter" >
+  <resultMap id="BaseResultMap" type="com.footmark.core.entity.Counter" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="source_id" property="sourceId" jdbcType="BIGINT" />
+    <result column="source_type" property="sourceType" jdbcType="TINYINT" />
+    <result column="counter_type" property="counterType" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, source_id, source_type, counter_type, create_time, update_time, status
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from counter
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insert" parameterType="com.footmark.core.entity.Counter"  useGeneratedKeys="true" keyProperty="id">
+    insert into counter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="sourceId != null" >
+        source_id,
+      </if>
+      <if test="sourceType != null" >
+        source_type,
+      </if>
+      <if test="counterType != null" >
+        counter_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="sourceId != null" >
+        #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="sourceType != null" >
+        #{sourceType,jdbcType=TINYINT},
+      </if>
+      <if test="counterType != null" >
+        #{counterType,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.footmark.core.entity.Counter" >
+    update counter
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="sourceId != null" >
+        source_id = #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="sourceType != null" >
+        source_type = #{sourceType,jdbcType=TINYINT},
+      </if>
+      <if test="counterType != null" >
+        counter_type = #{counterType,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 查找正在统计中的 -->
+  <select id="queryIsCounting" resultMap="BaseResultMap" parameterType="map">
+  	SELECT
+  	<include refid="Base_Column_List" />
+  	FROM counter
+  	WHERE user_id = #{userId} AND source_id = #{sourceId}
+  	AND source_type = #{sourceType} AND counter_type = #{counterType}
+  	AND status = 0
+  </select>
+  <!-- 查找正在统计或者已统计过的 -->
+  <select id="queryHasCounted" resultMap="BaseResultMap" parameterType="map">
+  	SELECT
+  	<include refid="Base_Column_List" />
+  	FROM counter
+  	WHERE user_id = #{userId} AND source_id = #{sourceId}
+  	AND source_type = #{sourceType} AND counter_type = #{counterType}
+  </select>
+  <!-- 更改点赞的状态 -->
+  <update id="updateStatus" parameterType="map">
+  	UPDATE counter
+  	SET status = #{status}
+  	WHERE id = #{id}
+  </update>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="UserFriend" >
+  <resultMap id="BaseResultMap" type="com.footmark.core.entity.UserFriend" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="friend_id" property="friendId" jdbcType="BIGINT" />
+    <result column="accept_status" property="acceptStatus" jdbcType="TINYINT" />
+    <result column="relation_type" property="relationType" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, friend_id, accept_status, relation_type, create_time, update_time, status
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_friend
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_friend
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.footmark.core.entity.UserFriend" useGeneratedKeys="true" keyProperty="id">
+    insert into user_friend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="friendId != null" >
+        friend_id,
+      </if>
+      <if test="acceptStatus != null" >
+        accept_status,
+      </if>
+      <if test="relationType != null" >
+        relation_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="friendId != null" >
+        #{friendId,jdbcType=BIGINT},
+      </if>
+      <if test="acceptStatus != null" >
+        #{acceptStatus,jdbcType=TINYINT},
+      </if>
+      <if test="relationType != null" >
+        #{relationType,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.footmark.core.entity.UserFriend" >
+    update user_friend
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="friendId != null" >
+        friend_id = #{friendId,jdbcType=BIGINT},
+      </if>
+      <if test="acceptStatus != null" >
+        accept_status = #{acceptStatus,jdbcType=TINYINT},
+      </if>
+      <if test="relationType != null" >
+        relation_type = #{relationType,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 根据userId,friendId更新接受状态 -->
+  <update id="updateAcceptStatus" parameterType="map" >
+  	UPDATE user_friend
+  	<set>
+  		accept_status = #{acceptStatus}
+  	</set>
+  	WHERE user_id = #{userId} AND friend_id = #{friendId}
+  	AND status = 0
+  </update>
+  <!-- 根据userId,friendId更新关系类型 -->
+  <update id="updateRelationType" parameterType="map" >
+  	UPDATE user_friend
+  	<set>
+  		relation_type = #{relationType},
+  		status = #{status}
+  	</set>
+  	WHERE user_id = #{userId} AND friend_id = #{friendId}
+  </update>
+  <!-- 根据接受状态查找用户的好友 -->
+  <select id="queryByAcceptStatus" resultMap="BaseResultMap" parameterType="map">
+  	SELECT
+  	<include refid="Base_Column_List"/>
+  	FROM user_friend
+  	WHERE user_id = #{userId} AND accept_status = #{acceptStatus}
+  	AND status = #{status}
+  </select>
+  <!-- 根据uid,fid查找 -->
+  <select id="queryByUidAndFid" resultMap="BaseResultMap" parameterType="map">
+  	SELECT
+  	<include refid="Base_Column_List"/>
+  	FROM user_friend
+  	WHERE user_id = #{userId} AND friend_id = #{friendId} 
+  	ORDER BY create_time
+  </select>
+  <!-- 根据uid -->
+  <select id="queryByUid" resultMap="BaseResultMap" parameterType="map">
+  	SELECT
+  	<include refid="Base_Column_List"/>
+  	FROM user_friend
+  	WHERE user_id = #{userId} ORDER BY create_time
+  </select>
+  <!-- 根据uid查询出FriendInfo -->
+  <select id="queryFriendByUid" resultType="com.footmark.core.vo.FriendInfoVo" parameterType="map">
+  	SELECT
+  	uf.friend_id AS id, uf.accept_status AS relationStatus, uf.relation_type AS relationType,
+  	ui.name AS name, ui.avatar AS avatar, ui.tel_num AS telNum, ui.gender AS gender,
+  	ui.account_no AS accountNo 
+  	FROM user_friend uf
+  	LEFT JOIN user_info ui ON (uf.friend_id = ui.id)
+  	WHERE uf.user_id = #{userId}
+  	<if test="acceptStatus != null" >
+        AND accept_status = #{acceptStatus,jdbcType=TINYINT}
+    </if>
+  	ORDER BY uf.create_time
+  </select>
+</mapper>
