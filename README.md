@@ -11,6 +11,8 @@
 	&ensp;gateway:网关工程，里面包含了与百度的推送，地图SDK，阿里云SDK的网关交互逻辑<br>
 	&ensp;web:可以理解为deploy工程，主要的配置部署<br>
 sql目录下要使用最新的sql<br>
+Tips:<br>
+	&ensp;需要执行gateway项目下libs下的build.sh，这样就会把推送的所需的jar包纳入maven的管理下
 <br>
 TODO：<br>
 	&ensp;1.封装一个cache工程，包含与缓存相关的逻辑，目前来看项目的承受量没有必要加一层缓存，待业务上需要时在封装<br>
