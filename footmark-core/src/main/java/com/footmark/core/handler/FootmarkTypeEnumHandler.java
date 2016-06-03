@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Creditease All rights reserved.
+cwq
  */
 package com.footmark.core.handler;
 

@@ -9,7 +9,7 @@ import com.footmark.common.entity.IDEntity;
 /**
  * Common mybatis dao base class, applies add, delete, update, query operations.
  *
- * @author pierre
+cwq
  * @version $ v1.0 Jun 24, 2015 $
  */
 @SuppressWarnings("rawtypes")

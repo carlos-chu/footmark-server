@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Creditease All rights reserved.
+cwq
  */
 package com.footmark.common.util;
 
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 /**
  * Miscellaneous class utility methods. Mainly for internal use.
  *
- * @author pierre
+cwq
  * @version $ v1.0 Jun 25, 2015 $
  */
 @SuppressWarnings("rawtypes")

@@ -98,7 +98,7 @@ public class BeanCopierUtil {
 
     /**
      * @desc 基本类型转换
-     * @author <wenqiangchu@creditease.cn>
+cwq
      * @data 2015年9月21日
      */
     static class BasicTypeConvertor implements Converter {
@@ -126,7 +126,7 @@ public class BeanCopierUtil {
 
     /**
      * @desc 基本类型转换,去除Integer的转换
-     * @author <wenqiangchu@creditease.cn>
+cwq
      * @data 2015年9月21日
      */
     static class BasicTypeIngoreIntegerConvertor implements Converter {

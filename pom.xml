@@ -283,7 +283,7 @@
 
 			<!-- hessian dependency -->
 			<dependency>
-				<groupId>cn.creditease.3dparty.caucho</groupId>
+cwq
 				<artifactId>hessian</artifactId>
 				<version>${hessian-version}</version>
 				<classifier>fixed</classifier>

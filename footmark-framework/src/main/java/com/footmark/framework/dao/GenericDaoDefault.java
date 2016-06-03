@@ -17,7 +17,7 @@ import com.footmark.common.util.ClassUtil;
 /**
  * Common mybatis dao base class, concrete dao should extend it.
  *
- * @author pierre
+cwq
  * @version $ v1.0 Jun 24, 2015 $
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })

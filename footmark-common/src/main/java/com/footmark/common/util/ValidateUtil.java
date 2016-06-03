@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Creditease All rights reserved.
+cwq
  */
 
 package com.footmark.common.util;
@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 /**
  * Validate Utilities.
  *
- * @author pierre
+cwq
  * @version $ v1.0 Sep 17, 2014 $
  */
 public class ValidateUtil {
